@@ -1,0 +1,32 @@
+import com.example.drools.User;
+global com.example.drools.Loan loan;
+
+dialect "mvel"
+
+rule "Check Favourite Color is Red with Age"
+ when
+   User(favouriteColor == "Red", $age : age)
+ then
+   loan.setLoanType("APPROVED");
+   if ($age > 50) {
+       loan.setLoanRate(50);
+   } else if ($age > 18) {
+       loan.setLoanRate(20);
+   } else {
+       loan.setLoanRate(10);
+       loan.setLoanType("REJECTED");
+   }
+end
+
+rule "Check Favourite Color is Blue and Age is greater than 80"
+ when
+  User(favouriteColor == "Blue", $age : age)
+ then
+    if ($age > 80) {
+        loan.setLoanType("APPROVED");
+        loan.setLoanRate(100);
+    } else {
+        loan.setLoanType("REJECTED");
+        loan.setLoanRate(0);
+    }
+end
