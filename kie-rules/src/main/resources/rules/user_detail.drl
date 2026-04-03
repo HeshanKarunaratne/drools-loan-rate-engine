@@ -1,32 +1,94 @@
+package com.example.drools;
+
 import com.example.drools.User;
-global com.example.drools.Loan loan;
+import com.example.drools.RuleResult;
+
+global java.util.List results;
 
 dialect "mvel"
 
-rule "Check Favourite Color is Red with Age"
- when
-   User(favouriteColor == "Red", $age : age)
- then
-   loan.setLoanType("APPROVED");
-   if ($age > 50) {
-       loan.setLoanRate(50);
-   } else if ($age > 18) {
-       loan.setLoanRate(20);
-   } else {
-       loan.setLoanRate(10);
-       loan.setLoanType("REJECTED");
-   }
+// ================= AGE =================
+
+rule "Age Approved"
+activation-group "age-group"
+when
+    $u : User(age > 18 && age <= 50)
+then
+    results.add(new RuleResult(
+        "AGE",
+        "APPROVED",
+        $u.getAge(),
+        "18<Age<=50"
+    ));
 end
 
-rule "Check Favourite Color is Blue and Age is greater than 80"
- when
-  User(favouriteColor == "Blue", $age : age)
- then
-    if ($age > 80) {
-        loan.setLoanType("APPROVED");
-        loan.setLoanRate(100);
-    } else {
-        loan.setLoanType("REJECTED");
-        loan.setLoanRate(0);
-    }
+rule "Age Rejected"
+activation-group "age-group"
+when
+    $u : User(age <= 18 || age > 50)
+then
+    results.add(new RuleResult(
+        "AGE",
+        "REJECTED",
+        $u.getAge(),
+        "Age<=18 OR Age>50"
+    ));
+end
+
+
+// ================= SALARY =================
+
+rule "Salary Approved"
+activation-group "salary-group"
+when
+    $u : User(salary > 100000)
+then
+    results.add(new RuleResult(
+        "SALARY",
+        "APPROVED",
+        $u.getSalary(),
+        "Salary>100000"
+    ));
+end
+
+rule "Salary Rejected"
+activation-group "salary-group"
+when
+    $u : User(salary <= 100000)
+then
+    results.add(new RuleResult(
+        "SALARY",
+        "REJECTED",
+        $u.getSalary(),
+        "Salary<=100000"
+    ));
+end
+
+
+// ================= DEBT =================
+
+rule "Debt Approved"
+activation-group "debt-group"
+when
+    $u : User(debt < 20000)
+then
+    results.add(new RuleResult(
+        "DEBT",
+        "APPROVED",
+        $u.getDebt(),
+        "Debt<20000"
+    ));
+end
+
+rule "Debt Rejected"
+activation-group "debt-group"
+when
+    $u : User(debt >= 20000)
+then
+    results.add(new RuleResult(
+        "DEBT",
+        "REJECTED",
+        $u.getDebt(),
+        "Debt>=20000"
+    ));
 end

@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController()
 @RequestMapping("/loan")
 public class LoanController {
@@ -17,9 +19,9 @@ public class LoanController {
     }
 
     @PostMapping("/rate")
-    public ResponseEntity<Loan> getRate(@RequestBody User request) {
-        Loan rate = bankService.getRate(request);
-        return new ResponseEntity<>(rate, HttpStatus.OK);
+    public ResponseEntity<List<RuleResult>> getRate(@RequestBody User request) {
+        List<RuleResult> results = bankService.getResults(request);
+        return new ResponseEntity<>(results, HttpStatus.OK);
     }
 
 }
