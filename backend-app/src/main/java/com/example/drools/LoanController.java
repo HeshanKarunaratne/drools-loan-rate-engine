@@ -12,15 +12,15 @@ import java.util.List;
 @RestController()
 @RequestMapping("/loan")
 public class LoanController {
-    private final DroolsService bankService;
+    private final DroolsService droolsService;
 
-    public LoanController(DroolsService bankService) {
-        this.bankService = bankService;
+    public LoanController(DroolsService droolsService) {
+        this.droolsService = droolsService;
     }
 
-    @PostMapping("/rate")
-    public ResponseEntity<List<RuleResult>> getRate(@RequestBody User request) {
-        List<RuleResult> results = bankService.getResults(request);
+    @PostMapping("/result")
+    public ResponseEntity<List<RuleResult>> getResult(@RequestBody User request) {
+        List<RuleResult> results = droolsService.getResults(request);
         return new ResponseEntity<>(results, HttpStatus.OK);
     }
 
