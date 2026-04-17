@@ -3,7 +3,7 @@ package com.example.drools.controller;
 import com.example.drools.dto.RuleDefinition;
 import com.example.drools.dto.RuleResult;
 import com.example.drools.dto.User;
-import com.example.drools.service.DroolsRuleEngineStrategyImpl;
+import com.example.drools.service.RuleEngineStrategy;
 import org.drools.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,22 +13,25 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @RestController()
 @RequestMapping("/loan")
 public class LoanController {
-    private final DroolsRuleEngineStrategyImpl droolsRuleEngineStrategyImpl;
 
-    public LoanController(DroolsRuleEngineStrategyImpl droolsRuleEngineStrategyImpl) {
-        this.droolsRuleEngineStrategyImpl = droolsRuleEngineStrategyImpl;
+    private final Map<String, RuleEngineStrategy> strategyMap;
+
+    public LoanController(Map<String, RuleEngineStrategy> strategyMap) {
+        this.strategyMap = strategyMap;
     }
 
     @PostMapping("/result")
-    public ResponseEntity<List<RuleResult>> getResult(@RequestBody User user) {
-        List<RuleResult> results = droolsRuleEngineStrategyImpl.execute(user);
-        return new ResponseEntity<>(results, HttpStatus.OK);
+    public ResponseEntity<List<RuleResult>> getResult(@RequestBody User user, @RequestParam("type") String type) {
+        RuleEngineStrategy strategy = strategyMap.get(type.toUpperCase());
+        if (strategy == null) throw new IllegalArgumentException("Invalid strategy type: " + type);
+        return new ResponseEntity<>(strategy.execute(user), HttpStatus.OK);
     }
 
     @GetMapping("/rules/raw")
