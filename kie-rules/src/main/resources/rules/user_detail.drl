@@ -1,7 +1,7 @@
 package com.example.drools;
 
-import com.example.drools.User;
-import com.example.drools.RuleResult;
+import com.example.drools.dto.User;
+import com.example.drools.dto.RuleResult
 
 global java.util.List results;
 

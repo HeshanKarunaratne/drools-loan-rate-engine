@@ -1,4 +1,4 @@
-package com.example.drools;
+package com.example.drools.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

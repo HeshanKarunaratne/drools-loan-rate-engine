@@ -1,5 +1,9 @@
-package com.example.drools;
+package com.example.drools.controller;
 
+import com.example.drools.dto.RuleDefinition;
+import com.example.drools.dto.RuleResult;
+import com.example.drools.dto.User;
+import com.example.drools.service.DroolsRuleEngineStrategyImpl;
 import org.drools.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,15 +19,15 @@ import java.util.regex.Pattern;
 @RestController()
 @RequestMapping("/loan")
 public class LoanController {
-    private final DroolsService droolsService;
+    private final DroolsRuleEngineStrategyImpl droolsRuleEngineStrategyImpl;
 
-    public LoanController(DroolsService droolsService) {
-        this.droolsService = droolsService;
+    public LoanController(DroolsRuleEngineStrategyImpl droolsRuleEngineStrategyImpl) {
+        this.droolsRuleEngineStrategyImpl = droolsRuleEngineStrategyImpl;
     }
 
     @PostMapping("/result")
-    public ResponseEntity<List<RuleResult>> getResult(@RequestBody User request) {
-        List<RuleResult> results = droolsService.getResults(request);
+    public ResponseEntity<List<RuleResult>> getResult(@RequestBody User user) {
+        List<RuleResult> results = droolsRuleEngineStrategyImpl.execute(user);
         return new ResponseEntity<>(results, HttpStatus.OK);
     }
 

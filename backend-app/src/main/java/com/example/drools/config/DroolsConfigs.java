@@ -1,4 +1,4 @@
-package com.example.drools;
+package com.example.drools.config;
 
 import org.kie.api.KieServices;
 import org.kie.api.builder.KieBuilder;
