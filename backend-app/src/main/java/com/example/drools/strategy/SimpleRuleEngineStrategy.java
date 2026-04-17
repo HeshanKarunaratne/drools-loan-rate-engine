@@ -1,5 +1,6 @@
-package com.example.drools.service;
+package com.example.drools.strategy;
 
+import com.example.drools.strategy.core.RuleEngineStrategy;
 import com.example.drools.dto.RuleResult;
 import com.example.drools.dto.User;
 import lombok.extern.slf4j.Slf4j;

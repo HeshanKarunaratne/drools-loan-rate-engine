@@ -3,7 +3,7 @@ package com.example.drools.controller;
 import com.example.drools.dto.RuleDefinition;
 import com.example.drools.dto.RuleResult;
 import com.example.drools.dto.User;
-import com.example.drools.service.RuleEngineStrategy;
+import com.example.drools.strategy.core.RuleEngineStrategy;
 import org.drools.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

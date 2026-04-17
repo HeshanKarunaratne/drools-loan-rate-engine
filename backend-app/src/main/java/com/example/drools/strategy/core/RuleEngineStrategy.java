@@ -1,4 +1,4 @@
-package com.example.drools.service;
+package com.example.drools.strategy.core;
 
 import com.example.drools.dto.RuleResult;
 import com.example.drools.dto.User;
