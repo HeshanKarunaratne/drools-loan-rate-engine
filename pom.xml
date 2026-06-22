@@ -86,6 +86,12 @@
 			<version>10.1.0</version>
 			<scope>compile</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+			<version>2.3.34</version>
+			<scope>compile</scope>
+		</dependency>
 
 	</dependencies>
 

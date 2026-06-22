@@ -5,7 +5,6 @@ import com.example.drools.dto.RuleResult;
 import com.example.drools.generator.DroolsRuleGenerator;
 import com.example.drools.strategy.dynamic.DroolsDynamicRuleEngineStrategyImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,21 +13,23 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * @author Heshan Karunaratne
+ */
 @RestController()
-@RequestMapping("/loan/dynamic")
+@RequestMapping("/rules")
 @RequiredArgsConstructor
-public class DynamicLoanController {
+public class RuleGenerateController {
 
     private final DroolsDynamicRuleEngineStrategyImpl strategy;
     private final DroolsRuleGenerator generator;
 
-    @PostMapping(value = "/result", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping("/generate")
+    public ResponseEntity<List<RuleResult>> generate(@RequestBody RuleRequest request) throws Exception {
 
-    public ResponseEntity<List<RuleResult>> getResult(@RequestBody RuleRequest request) throws Exception {
         String drl = generator.generate(request);
         List<RuleResult> results = strategy.evaluate(request.getGroup(), drl);
 
         return ResponseEntity.ok(results);
     }
-
 }
