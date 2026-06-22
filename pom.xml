@@ -25,6 +25,7 @@
         <module>shared-module</module>
 		<module>backend-app</module>
         <module>kie-rules</module>
+        <module>mapper</module>
     </modules>
     <scm>
 		<connection/>
