@@ -20,4 +20,16 @@ then
     ));
 end
 
+rule "${rule.name} Rejected"
+when
+    $u : Group(!(${rule.expression}))
+then
+    results.add(new RuleResult(
+        "${rule.field}",
+        "REJECTED",
+        $u.get${rule.getter}(),
+        "${rule.negatedExpression}"
+    ));
+end
+
 </#list>

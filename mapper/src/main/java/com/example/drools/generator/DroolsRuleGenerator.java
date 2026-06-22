@@ -47,10 +47,12 @@ public class DroolsRuleGenerator {
             Map<String, String> rule = new HashMap<>();
 
             String expr = ConditionBuilder.build(condition);
+            String negatedExpr = ConditionBuilder.negate(condition);
 
-            rule.put("name", condition.getField() + " Approved");
+            rule.put("name", condition.getField());
             rule.put("field", condition.getField());
             rule.put("expression", expr);
+            rule.put("negatedExpression", negatedExpr);
             rule.put("getter", capitalize(condition.getField()));
 
             rules.add(rule);
