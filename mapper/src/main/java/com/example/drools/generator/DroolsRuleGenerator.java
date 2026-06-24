@@ -9,12 +9,11 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 /**
  * @author Heshan Karunaratne
@@ -43,20 +42,24 @@ public class DroolsRuleGenerator {
 
         List<Map<String, String>> rules = new ArrayList<>();
 
+
         for (RuleCondition condition : request.getRules()) {
-            Map<String, String> rule = new HashMap<>();
+            try {
+                Map<String, String> rule = new HashMap<>();
+                String expr = ConditionBuilder.build(condition);
 
-            String expr = ConditionBuilder.build(condition);
-            String negatedExpr = ConditionBuilder.negate(condition);
+                rule.put("name", condition.getField());
+                rule.put("field", condition.getField());
+                rule.put("expression", expr);
+                rule.put("getter", capitalize(condition.getField()));
 
-            rule.put("name", condition.getField());
-            rule.put("field", condition.getField());
-            rule.put("expression", expr);
-            rule.put("negatedExpression", negatedExpr);
-            rule.put("getter", capitalize(condition.getField()));
-
-            rules.add(rule);
+                rules.add(rule);
+            } catch (Exception e) {
+                log.error("Failed to process condition: field={}, condition={}",
+                        condition.getField(), condition, e);
+            }
         }
+
 
         model.put("rules", rules);
 
@@ -71,8 +74,5 @@ public class DroolsRuleGenerator {
         return field.substring(0, 1).toUpperCase() + field.substring(1);
     }
 
-    public void writeToFile(String drl) throws Exception {
-        Path path = Path.of("generated-rules.drl"); // or any path
-        Files.writeString(path, drl);
-    }
+
 }

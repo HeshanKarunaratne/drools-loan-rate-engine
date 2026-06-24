@@ -16,7 +16,7 @@ then
         "${rule.field}",
         "APPROVED",
         $u.get${rule.getter}(),
-        "${rule.expression}"
+        "${rule.expression?js_string}"
     ));
 end
 
@@ -28,7 +28,7 @@ then
         "${rule.field}",
         "REJECTED",
         $u.get${rule.getter}(),
-        "${rule.negatedExpression}"
+        "${rule.expression?js_string}"
     ));
 end
 

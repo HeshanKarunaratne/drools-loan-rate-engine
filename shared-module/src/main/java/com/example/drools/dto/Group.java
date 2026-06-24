@@ -9,4 +9,10 @@ import lombok.*;
 @ToString
 public class Group {
     private int groupAgeCycles;
+    private String backupStatus;
+    private double membersSavingMinimumPercentage;
+    private double membersWithOutstandingLoansPercentage;
+    private double steadyMembershipPercentage;
+    private double attendanceRate;
+    private double membersWithImagesPercentage;
 }
