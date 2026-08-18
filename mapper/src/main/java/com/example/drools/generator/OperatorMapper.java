@@ -1,5 +1,7 @@
 package com.example.drools.generator;
 
+import com.example.drools.dto.RuleCondition;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,5 +54,13 @@ public class OperatorMapper {
         return list.stream()
                 .map(OperatorMapper::format)
                 .collect(Collectors.joining(", "));
+    }
+
+    static String build(RuleCondition condition) {
+        return OperatorMapper.map(
+                condition.getField(),
+                condition.getOperator(),
+                condition.getValue()
+        );
     }
 }
